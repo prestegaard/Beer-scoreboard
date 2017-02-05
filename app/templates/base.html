@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - automation center</title>
+    {% else %}
+    <title>Welcome to Haagons home automation center</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Automation center: <a href="/index">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>

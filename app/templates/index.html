@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+	<head>
+	<!--
+		<link rel="stylesheet" href='/static/style.css' />	
+	-->
+ 		
+	</head>
+
+	<body>
+		{% extends "base.html" %}
+		{% block content %}
+		    <h1>Hi, {{ user.nickname }}!</h1>
+		    {% for post in posts %}
+		    	<div><p>{{ post.author.nickname }} says: <b>{{ post.body }}</b></p></div>
+		    {% endfor %}
+		{% endblock %}
+<!--
+		<form action="/hello/fname" method="get">
+			First name: <input type="text" name="fname" value="test"><br>
+			<button type="submit" value="Submit">Submit</button>
+			<button type="reset" value="Reset">Reset</button>
+		</form>
+-->
+
+	</body>
+</html>
+
+
+

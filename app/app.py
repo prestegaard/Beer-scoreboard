@@ -9,10 +9,24 @@ def index():
 '''
 
 @app.route('/')
+@app.route('/index')
 def index():
+    user = {'nickname': 'Haagon'} #Fake user 
+    return render_template('index.html',
+                           title='Home',
+                           user=user )
+
+
+
+
+
+
+'''
     if 'username' in session:
         return 'Logged in as %s' % escape(session['username'])
     return redirect(url_for('login'))
+'''
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
