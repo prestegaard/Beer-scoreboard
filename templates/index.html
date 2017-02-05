@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+<link rel="stylesheet" href='/static/style.css' />
+</head>
+
+<body>
+<h1>Hello from a template!</h1>
+
+
+<form action="/submited_data/" method="get">
+	First name: <input type="text" name="fname" value="test"><br>
+	<button type="submit" value="Submit">Submit</button>
+	<button type="reset" value="Reset">Reset</button>
+</form>
+
+<form name="fooForm" action="submited_data" method="POST" onsubmit="document.location.href='thispage.html#software'">
+<input type="text" name="formField" />
+<input type="submit" value="Submit" />
+</form>
+
+<a name="software"></a>
+<!-- Content and such here -->
+
+
+</body>
+</html>
+
+
+
