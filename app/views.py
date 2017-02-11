@@ -1,34 +1,50 @@
-from flask import render_template
-from app import app
-from .forms import LoginForm
+from flask import render_template, flash, redirect, session, url_for, request, g
+from flask_login import login_user, logout_user, current_user, login_required
+from app import app, db, lm, oid
+from .models import User
+import datetime
+
+
 
 @app.route('/')
 @app.route('/index')
 def index():
-    user = {'nickname': 'Haagon'}  # fake user
-    posts = [  # fake array of posts
+    user = "Haagon"
+    beer = [  # fake array of posts
         { 
-            'author': {'nickname': 'John'}, 
-            'body': 'Beautiful day in Portland!' 
+            'Drinker': {'nickname': 'Haagon'}, 
+            'When':  datetime.datetime.utcnow().strftime("%A, %d. %B %Y %H:%M")
+
         },
         { 
-            'author': {'nickname': 'Susan'}, 
-            'body': 'The Avengers movie was so cool!' 
+            'Drinker': {'nickname': 'Susan'}, 
+            'When': datetime.datetime.utcnow().strftime("%A, %d. %B %Y %H:%M")
+
         }
     ]
     return render_template("index.html",
                            title='Home',
                            user=user,
-                           posts=posts)
+                           beer=beer)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requested for OpenID="%s", remember_me=%s' %
-              (form.openid.data, str(form.remember_me.data)))
-        return redirect('/index')
-    return render_template('login.html', 
-                           title='Sign In',
-                           form=form)
+@app.route('/toilet')
+def toilet():
+    return render_template("toilet.html")
+
+
+
+@app.route('/users')
+def users():
+   # user = User.query.get(3)
+    users = User.query.all()
+
+#    posts = [
+#        {'author': user, 'body': 'Test post #1'},
+#        {'author': user, 'body': 'Test post #2'}
+#    ]
+    return render_template('user.html',
+                           users=users
+    #                       user=user,
+    #                       posts=posts
+                           )

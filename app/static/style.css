@@ -1,4 +1,52 @@
-body {
-    background: red;
-    color: yellow;
+.img-circle {
+    border-radius: 50%;
+    width:128px;
+    height:128px;
 }
+
+.base.header {
+    color: red;
+    font-size: 250%; 
+}
+
+.frontpage.body {
+    border: 3px solid #0ff;
+    background-color: lightblue;   
+}
+
+.users.body {
+    background-color: lightblue;
+  
+}
+
+.users.h1 {
+    color: navy;
+    margin-left:  10px;
+    margin-right: 10px;
+}
+
+.users.about {
+    font-size: 120%;
+    color: green;
+    background: gold;
+    overflow-wrap: break-word;
+  
+}
+
+.users.table {
+    overflow-wrap: break-word;
+    display: inline;
+    width: 235px;
+    margin-left:  10px;
+    margin-right: 10px;
+  
+}
+
+.toilet.body{
+    background-color: green;
+}
+.toilet.h1 {
+    color: navy;
+    margin-left: 20px;
+}
+

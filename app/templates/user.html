@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+  <head>
+    <link rel="stylesheet" href='/static/style.css' />   
+  </head>  
+  <!-- extend base layout -->
+
+    <body class="users body" >
+    {% extends "base.html" %}
+    {% block content %}
+
+    {% for user in users %}
+        <table class="users table">
+            <tr valign="top">
+            <td>
+                <h1 class="users h1">{{user.nickname}}</h1>
+                <img class="img-circle" src="{{user.img_src}}">
+              <!--  <p><i>Number of beers: {{ user.number_of_beers }}</i></p> -->
+                <p class="users about">{{ user.about_me }}</p>
+                <p><i>Last seen on: </i></p> 
+                <P><i>{{ user.last_seen }}</i></p>
+            </td>
+            </tr>
+        </table>
+    {% endfor %}
+    </body>  
+    {% endblock %}
+</htm>

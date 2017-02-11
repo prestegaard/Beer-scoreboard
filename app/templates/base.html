@@ -1,5 +1,6 @@
 <html>
   <head>
+    <link rel="stylesheet" href='/static/styles.css' />  
     {% if title %}
     <title>{{ title }} - automation center</title>
     {% else %}
@@ -7,8 +8,22 @@
     {% endif %}
   </head>
   <body>
-    <div>Automation center: <a href="/index">Home</a></div>
+    <div class="base header">Automation center: 
+      <a href="{{ url_for('index') }}">Home</a>
+      | <a href="{{ url_for('users') }}">Users</a>
+      | <a href="{{ url_for('toilet') }}">Toalett</a>    
+    </div>
+    
     <hr>
+     {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     {% block content %}{% endblock %}
   </body>
 </html>
