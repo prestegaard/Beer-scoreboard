@@ -1,1 +1,5 @@
-__pycache__/*
+/__pycache__/
+/tmp/
+/app/__pycache__/
+/app/*pyc
+/db_repository/*pyc
