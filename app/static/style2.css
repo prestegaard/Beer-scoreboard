@@ -1,0 +1,77 @@
+.img-circle {
+    border-radius: 50%;
+    width:128px;
+    height:128px;
+}
+
+#cssTable td {text-align:center; vertical-align:middle;}
+
+.users.table {
+    table-layout:fixed
+    border-collapse: separate;
+    width: 100%;
+    border: 100px solid black;
+
+}
+
+td {
+   border: 30px solid navy;
+}
+
+
+.users.body {
+    background-color: lightblue;
+  
+}
+
+.nickname.header {
+    font-size: 200%;
+    background-color: grey;
+    color: navy;
+}
+
+.users.about {
+    font-size: 120%;
+    color: green;
+    background-color: gold;
+    overflow-wrap: break-word;
+  
+}
+
+.users.table {
+    overflow-wrap: break-word;
+    display: inline;
+    width: 235px;
+    margin-left:  10px;
+    margin-right: 10px;
+  
+}
+
+.toilet.body{
+    background-color: green;
+}
+.toilet.h1 {
+    color: navy;
+    margin-left: 20px;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.yellow {
+    background-color: yellow;
+}
+.red {
+    background-color: red;
+}
+
+.white {
+    background-color: white;
+}
+.pink {
+    background-color: #FF00FF;
+}
+.green {
+    background-color: green;
+}

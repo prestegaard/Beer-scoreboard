@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+  <head>
+    <link rel="stylesheet" href='/static/style2.css' />   
+  </head>  
+  <!-- extend base layout -->
+
+    <body> <!-- class="users body" -->
+    {% extends "base.html" %}
+    {% block content %}
+        <table style="" class="user table" id="cssTable">
+            <colgroup>
+              <col class="blue"   />
+              <col class="yellow" />
+              <col class="red"    />
+              <col class="white"  />
+              <col class="pink"   />
+              <col class="green"  />
+            </colgroup>
+            <thead style="display:table-header-group;">
+                <tr>
+                    {% for user in users %}
+                        <th class="nickname header">{{user.nickname}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for user in users %}
+                        <td width="15%">
+                            <img class="img-circle" src="{{user.img_src}}">
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr >
+                    {% for user in users %}
+                        <td width="15%">
+                            <p><i>Number of beers: {{ user.number_of_beers }}</i></p>
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr >
+                    {% for user in users %}
+                        <td width="15%">
+                            <p><i>Last seen on: </i></p> 
+                            <p><i>{{ user.last_seen }}</i></p>
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr >
+                    {% for user in users %}
+                        <td width="15%">
+                            <p class="users about">{{ user.about_me }}</p>
+                        </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+    </body>  
+    {% endblock %}
+</htm>
+

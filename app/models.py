@@ -30,6 +30,7 @@ class User(db.Model):
     name = db.Column(db.String(64), index=True, unique=True)
     nickname = db.Column(db.String(64), index=True, unique=True)
     number_of_beers=db.Column(db.Integer)
+    button_color=db.Column(db.String(64), index=True, unique=True)
     beer = db.relationship('Beer', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.String(64))
