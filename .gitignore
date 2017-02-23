@@ -1,6 +1,6 @@
-/__pycache__/
-/tmp/
-/app/__pycache__/
-/app/*pyc
-/db_repository/*pyc
-/flask/*
+__pycache__/
+tmp/
+app/__pycache__/
+app/*pyc
+db_repository/*pyc
+flask/
