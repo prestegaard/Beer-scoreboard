@@ -3,3 +3,4 @@
 /app/__pycache__/
 /app/*pyc
 /db_repository/*pyc
+/flask/*
