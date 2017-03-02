@@ -4,10 +4,11 @@
   </head>  
   <!-- extend base layout -->
 
-    <body> <!-- class="users body" -->
+    <body class="users body">
     {% extends "base.html" %}
     {% block content %}
-        <table style="" class="user table" id="cssTable">
+        <table class="user table" id="cssTable">
+           
             <colgroup>
               <col class="blue"   />
               <col class="yellow" />
@@ -26,21 +27,21 @@
             <tbody>
                 <tr>
                     {% for user in users %}
-                        <td width="15%">
+                        <td class="users body">
                             <img class="img-circle" src="{{user.img_src}}">
                         </td>
                     {% endfor %}
                 </tr>
                 <tr >
                     {% for user in users %}
-                        <td width="15%">
+                        <td class="round">
                             <p><i>Number of beers: {{ user.number_of_beers }}</i></p>
                         </td>
                     {% endfor %}
                 </tr>
                 <tr >
                     {% for user in users %}
-                        <td width="15%">
+                        <td class="round">
                             <p><i>Last seen on: </i></p> 
                             <p><i>{{ user.last_seen }}</i></p>
                         </td>
@@ -48,7 +49,7 @@
                 </tr>
                 <tr >
                     {% for user in users %}
-                        <td width="15%">
+                        <td class="round">
                             <p class="users about">{{ user.about_me }}</p>
                         </td>
                     {% endfor %}

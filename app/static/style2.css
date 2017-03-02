@@ -6,21 +6,33 @@
 
 #cssTable td {text-align:center; vertical-align:middle;}
 
+
+
+
 .users.table {
-    table-layout:fixed
-    border-collapse: separate;
     width: 100%;
-    border: 100px solid black;
+    background-color: grey;
 
 }
 
-td {
-   border: 30px solid navy;
+
+.round{
+    border-radius: 25px;
+    border: 0px solid #73AD21;
+    padding: 5px; 
+    width: 200px;
+    height: 50px; 
+}
+table {
+    border:0px solid #CCC;
+    border-collapse:collapse;
 }
 
-
+.default.background{
+    background-color: grey;
+}
 .users.body {
-    background-color: lightblue;
+    background-color: black;
   
 }
 
@@ -32,8 +44,7 @@ td {
 
 .users.about {
     font-size: 120%;
-    color: green;
-    background-color: gold;
+    color: black;
     overflow-wrap: break-word;
   
 }
@@ -41,9 +52,6 @@ td {
 .users.table {
     overflow-wrap: break-word;
     display: inline;
-    width: 235px;
-    margin-left:  10px;
-    margin-right: 10px;
   
 }
 
@@ -56,7 +64,7 @@ td {
 }
 
 .blue {
-    background-color: blue;
+    background-color: #0080FF;
 }
 
 .yellow {

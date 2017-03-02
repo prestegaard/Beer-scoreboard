@@ -119,6 +119,3 @@ def users2():
                            users=users
                            )
 
-
-if __name__ == '__main__':
-    socketio.run(app)
