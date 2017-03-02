@@ -31,23 +31,12 @@ class User(db.Model):
     nickname = db.Column(db.String(64), index=True, unique=True)
     number_of_beers=db.Column(db.Integer)
     button_color=db.Column(db.String(64), index=True, unique=True)
-    beer = db.relationship('Beer', backref='author', lazy='dynamic')
+    beer = db.relationship('Beer', backref='drinker', lazy='dynamic')
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.String(64))
     img_src = db.Column(db.String(64), index=True)
+ 
     
-    @property
-    def is_authenticated(self):
-        return True
-
-    @property
-    def is_active(self):
-        return True
-
-    @property
-    def is_anonymous(self):
-        return False
-
     def get_id(self):
         try:
             return unicode(self.id)  # python 2

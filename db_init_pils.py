@@ -2,10 +2,15 @@
 from app import db, models
 import datetime
 users = models.User.query.all()
-
+beers = models.Beer.query.all()
 for u in users:
 	db.session.delete(u)
 db.session.commit()
+
+
+for b in beers:
+		db.session.delete(b)
+db.session.commit() 
 
 u = models.User(name='Vegard', nickname='Laowi', 	number_of_beers=0, 	 about_me='Eg e ein Revolveman.', 		button_color='blue', 	img_src='/static/images/vegard.jpg')
 db.session.add(u)
