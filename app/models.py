@@ -29,11 +29,9 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     nickname = db.Column(db.String(64), index=True, unique=True)
-    number_of_beers=db.Column(db.Integer)
     button_color=db.Column(db.String(64), index=True, unique=True)
     beer = db.relationship('Beer', backref='drinker', lazy='dynamic')
     about_me = db.Column(db.String(140))
-    last_seen = db.Column(db.String(64))
     img_src = db.Column(db.String(64), index=True)
  
     
@@ -45,7 +43,7 @@ class User(db.Model):
 
 
     def __repr__(self):
-        return '<User: %r: Number of beers %r>' % (self.name, self.number_of_beers)
+        return '<User: %r\t>' % (self.name)
 
  
 
