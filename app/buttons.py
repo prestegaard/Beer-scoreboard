@@ -62,11 +62,12 @@ def buttonPressed(user_pin, user_number):
         time.sleep(0.001)    
         if time.time() > timeout:
             button_is_truly_pressed_flag = 1
-            print ("MORE THAN ENGOUGH PRESS TIME ON BUTTON\n")
+            print ("MORE THAN ENGOUGH PRESS TIME ON BUTTON, beer approved!\n")
             break
 
     if (not button_is_truly_pressed_flag):
-        print("RETURN, TOO SHORT PRESS\n")
+        rising_time = time.time()
+        print("RETURN, TOO SHORT PRESS. Only {}\t s long press. Time is now: {}\n".format( (rising_time-now), now.time() ) )
         return      
 
      # Update last approved beer
@@ -130,7 +131,7 @@ def update_web_page_single_user_info(user_number):
     users = User.query.all()
     for user in users:
         number = user.nickname + ': ' + str(user.number_of_beers)
-        socketio.emit('newnumber', {'number': number}, namespace='/test')
+        socketio.emit('newnumber', {'number': number}, namespace='/test')   
 '''
 def buttons_init():
     GPIO.setup(UserButton.Vegard.value,   GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
