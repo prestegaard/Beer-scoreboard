@@ -132,7 +132,7 @@ def buttons_init():
     GPIO.setup(UserButton.Haagon.value,   GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
     GPIO.setup(UserButton.Simen.value,    GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(UserButton.Vetle.value,    GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    GPIO.setup(UserButton.Magga.value,    GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(UserButton.Rune.value,     GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     
     GPIO.add_event_detect(UserButton.Vegard.value,   GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Vegard.value,   UserNumber.Vegard.value),      bouncetime=200)
     GPIO.add_event_detect(UserButton.Karlstad.value, GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Karlstad.value, UserNumber.Karlstad.value),    bouncetime=200)
