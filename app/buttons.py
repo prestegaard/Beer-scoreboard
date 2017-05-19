@@ -5,7 +5,7 @@ from .models import Beer
 import datetime
 from datetime import *
 from time import sleep
-
+from random import randint
 
 # Imports for buttons
 import RPi.GPIO as GPIO
@@ -43,8 +43,8 @@ def buttonPressed(user_pin, user_number):
 
     button_is_truly_pressed_flag = 0 
     print ("RIGSING BUTTON DETECTED, PIN: {}".format(user_pin))
-    now=time.time()
-    if(now - last_press < 2):
+    now = time.time()
+    if now - last_press < 2:
         print("NOT ENGOUGH TIME FROM LAST RISING BUTTON\n")
         return
 
@@ -60,7 +60,7 @@ def buttonPressed(user_pin, user_number):
 
     if (not button_is_truly_pressed_flag):
         rising_time = time.time()
-        print("RETURN, TOO SHORT PRESS. Only {}\t s long press. Time is now: {}\n".format( (rising_time-now), now.time() ) )
+        print("RETURN, TOO SHORT PRESS. Only {}\t s long press. Time is now: {}\n".format(rising_time-now, now.time))
         return      
 
      # Update last approved beer
@@ -84,7 +84,13 @@ def update_beer_cnt(user_number):
     db.session.add(b)
     db.session.commit()
     print ("### {}\t : drank beer number {}\t###".format(user.nickname, b.beer_number).expandtabs(10)) 
-    
+
+
+def update_web_page_with_sound():
+    sound_number = randint(1, 14)  # Integer, endpoints included
+    socketio.emit('play sound socket', {'data': str(sound_number)}, namespace='/test')
+    sleep(0.01)
+    print("Sound number: {}".format(sound_number))
 
 
 def update_web_page_single_user_info(user_number):
@@ -153,7 +159,7 @@ def test_connect():
     print('Client connected')
     global buttons_initialized
     if not buttons_initialized:
-        buttons_init()
+        #buttons_init()
         buttons_initialized = 1
 
     #global thread
@@ -181,8 +187,9 @@ def background_thread():
         for j in range (0, 10):
             update_beer_cnt(i)
             update_web_page_single_user_info(i)
+            update_web_page_with_sound()
             print("Message sent from for loop: {}".format(i))
-            socketio.sleep(1)
+            socketio.sleep(10)
 
 
 
