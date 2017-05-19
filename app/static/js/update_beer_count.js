@@ -2,7 +2,6 @@
 $(document).ready(function(){
     //connect to the socket server.
     var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-    var numbers_received = [];
     
     var number;
     var number_old;
@@ -41,4 +40,15 @@ $(document).ready(function(){
         $(id_beer).html(number_of_beers_string);
         $(id_last_seen).html(last_seen_string);
     });
+
+    socket.on('play sound socket', function(msg){
+        var sound = msg.data;
+        var sound_string = '';
+        sound_string = '/static/sounds/sound' + sound.toString() + '.mp3';
+        //var x = document.getElementById(sound_string);
+        //x.play();
+        var audio = new Audio(sound_string);
+        audio.play();
+    });
+
 });
