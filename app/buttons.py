@@ -69,6 +69,7 @@ def buttonPressed(user_pin, user_number):
     update_beer_cnt(user_number)
     # Update web page
     update_web_page_single_user_info(user_number)
+    update_web_page_with_sound()
 
 def update_beer_cnt(user_number):
     # Content here is somewhat equal to content of db_add_beer.py
