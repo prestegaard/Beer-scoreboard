@@ -3,6 +3,18 @@ from app import db, models
 import datetime
 users = models.User.query.all()
 beers = models.Beer.query.all()
+
+for u in users:
+    print("ID: {} {}\t {}\t {}\t {}\t".format(u.id, u.name, u.nickname, u.about_me, u.button_color).expandtabs(30))
+'''
+    if u.id > 6 :
+        db.session.delete(u)
+db.session.commit()
+'''
+
+
+
+'''
 for u in users:
 	db.session.delete(u)
 db.session.commit()
@@ -12,17 +24,43 @@ for b in beers:
 		db.session.delete(b)
 db.session.commit() 
 
-u = models.User(name='Vegard', nickname='Laowi', 	number_of_beers=0, 	 about_me='Eg e ein Revolveman.', 		button_color='blue', 	img_src='/static/images/vegard.jpg')
+u = models.User(name='Vegard', nickname='Laowi', 	 about_me='Eg e ein Revolveman.', 		button_color='blue', 	img_src='/static/images/vegard.jpg')
 db.session.add(u)
-u = models.User(name='Øyvind', nickname='Karlstad', number_of_beers=0,   about_me='Je et flesk og pannkak.', 	button_color='yellow', 	img_src='/static/images/karlstad.jpg')
+u = models.User(name='Øyvind', nickname='Karlstad',  about_me='Je et flesk og pannkak.', 	button_color='yellow', 	img_src='/static/images/karlstad.jpg')
 db.session.add(u)
-u = models.User(name='Håkon', nickname='Haagon', 	number_of_beers=0,   about_me='Æ spillår trommer!', 		button_color='red', 	img_src='/static/images/haagon.jpg')
+u = models.User(name='Håkon', nickname='Haagon', 	 about_me='Æ spillår trommer!', 		button_color='red', 	img_src='/static/images/haagon.jpg')
 db.session.add(u)
-u = models.User(name='Simen', nickname='Doktor', 	number_of_beers=0, 	 about_me='Eg skga bli doktor.', 		button_color='white', 	img_src='/static/images/simen.jpg')
+u = models.User(name='Simen', nickname='Doktor', 	 about_me='Eg skga bli doktor.', 		button_color='white', 	img_src='/static/images/simen.jpg')
 db.session.add(u)
-u = models.User(name='Vetle', nickname='Osterpus', 	number_of_beers=0, 	 about_me='E gårrr på madtegk', 		button_color='pink', 	img_src='/static/images/vetle.jpg')
+u = models.User(name='Vetle', nickname='Osterpus', 	 about_me='E gårrr på madtegk', 		button_color='pink', 	img_src='/static/images/vetle.jpg')
 db.session.add(u)
-u = models.User(name='Magnus', nickname='Magga', 	number_of_beers=0,   about_me='Jeg flyr drone, ass!', 		button_color='green', 	img_src='/static/images/magnus.jpg')
+u = models.User(name='Magnus', nickname='Magga', 	 about_me='Jeg flyr drone, ass!', 		button_color='green', 	img_src='/static/images/magnus.jpg')
 db.session.add(u)
 db.session.commit()
+'''
+
+# Delete specific user
+'''
+for u in users:
+    if u.name == 'Rune':
+        db.session.delete(u)
+'''
+
+# Add specific user
+'''
+u = models.User(name='Rune', nickname='Bassen', 	 about_me='Jeg er smøregutt!', 	button_color='yellow', 	img_src='/static/images/rune.jpg')
+db.session.add(u)
+db.session.commit()
+'''
+
+# Change info on specific user
+'''
+karlstad = models.User.query.get(2)
+karlstad.about_me = 'Je har kjøpt leilighet'
+karlstad.button_color= 'green'
+
+
+db.session.add(karlstad)
+db.session.commit()
+'''
 

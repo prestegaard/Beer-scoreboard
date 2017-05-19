@@ -1,20 +1,12 @@
-from flask import Flask, render_template, redirect, url_for, session, escape, request
-from flask import render_template, flash, redirect, session, url_for, request, g
-from flask_login import login_user, logout_user, current_user, login_required
-from app import app, db, lm, oid, socketio
+
+from app import app, db, socketio
 from .models import User
 from .models import Beer
 import datetime
 from datetime import *
-# Start with a basic flask app webpage.
-#from flask.ext.socketio import SocketIO, emit
-from flask_socketio import SocketIO, emit
-from flask import Flask, render_template, url_for, copy_current_request_context
-from random import random
-import time
 from time import sleep
-from threading import Thread, Event
-    
+
+
 # Imports for buttons
 import RPi.GPIO as GPIO
 import time
@@ -22,17 +14,17 @@ from enum import Enum
 
 last_press = time.time()
 buttons_initialized = 0
-    
+thread = None
 
 GPIO.setmode(GPIO.BCM)
 
 class UserButton(Enum):
-    Vegard   = 25
-    Karlstad = 24
-    Haagon   = 23
-    Simen    = 18
-    Vetle    = 15
-    Magga    = 14
+    Vegard   = 25 # Blue
+    Rune     = 24 # Yellow
+    Haagon   = 23 # Red
+    Simen    = 18 # White
+    Vetle    = 15 # Pink
+    Karlstad = 14 # Green
 
 class UserNumber(Enum):
     Vegard   = 1
@@ -41,6 +33,7 @@ class UserNumber(Enum):
     Simen    = 4
     Vetle    = 5
     Magga    = 6
+    Rune     = 7
 
 
 
@@ -146,19 +139,29 @@ def buttons_init():
     GPIO.add_event_detect(UserButton.Haagon.value,   GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Haagon.value,   UserNumber.Haagon.value),      bouncetime=200)
     GPIO.add_event_detect(UserButton.Simen.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Simen.value,    UserNumber.Simen.value),       bouncetime=200)
     GPIO.add_event_detect(UserButton.Vetle.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Vetle.value,    UserNumber.Vetle.value),       bouncetime=200)
-    GPIO.add_event_detect(UserButton.Magga.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Magga.value,    UserNumber.Magga.value),       bouncetime=200)
+    GPIO.add_event_detect(UserButton.Rune.value,     GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Rune.value,     UserNumber.Rune.value),        bouncetime=200)
+    #GPIO.add_event_detect(UserButton.Magga.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Magga.value,    UserNumber.Magga.value),       bouncetime=200)
     print ("Buttons are initialized")
+
+@socketio.on('disconnect', namespace='/test')
+def test_disconnect():
+    print('Client disconnected')
 
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
     print('Client connected')
     global buttons_initialized
-    if(not buttons_initialized):
+    if not buttons_initialized:
         buttons_init()
         buttons_initialized = 1
 
+    #global thread
+    #if thread is None:
+    #    thread = socketio.start_background_task(target=background_thread)
+
     last_seen_user = User.query.get(1)
+
     users = User.query.all()
     beers = Beer.query.all()
 
@@ -168,20 +171,18 @@ def test_connect():
     for beer in beers:
         last_seen_user = beer.drinker
     update_web_page_single_user_info(last_seen_user.id)
-   
-    '''
-    # Extra print for setting latest drinker at evry refresh    
-    socketio.emit('nickname socket', {'data': str(last_seen_user.nickname)}, namespace='/test')
-    sleep(0.01)
-    socketio.emit('beer socket', {'data': str(last_seen_use)}, namespace='/test')
-    sleep(0.01)
-    socketio.emit('last seen socket', {'data': str(0)}, namespace='/test')
-    sleep(0.01)
-    '''
- 
-@socketio.on('disconnect', namespace='/test')
-def test_disconnect():
-    print('Client disconnected')
+
+
+def background_thread():
+    print ("Starting for loop")
+    i = 0
+    j = 0
+    for i in range (1,8):
+        for j in range (0, 10):
+            update_beer_cnt(i)
+            update_web_page_single_user_info(i)
+            print("Message sent from for loop: {}".format(i))
+            socketio.sleep(1)
 
 
 
