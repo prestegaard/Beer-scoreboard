@@ -8,8 +8,45 @@
     <link rel="stylesheet" href='/static/style2.css' />
 </head>
 <body class="users body">
-    <h1 class="latest-drinker">Criben!</h1>
-    <table class="user table" id="cssTable">
+    <header>
+		<!--img src="/static/images/CB_logo.jpg" style="width: auto; height: auto; max-width: 200px; max-height: 100px; float: left;" -->
+
+
+        <table id="headerTable" align="center">
+             <thead style="display:table-header-group;">
+                <tr>
+                    <th style="width: 30%;">
+                        <div class="latest-drinker"   id='scoreboard_header' /><!-- Lastest drinker -->
+                    </th>
+                    <th style="width: 40%;">
+                        <h1  class="criben-header" align="center">Criben pilstavle</h1>
+                    </th>
+                    <th style="width: 30%;">
+                        <div class="lead-drinker"   id='current_leader_header' /><!-- Lead drinker -->
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+        <!-- Uses table to get correct placement of latest drinker -->
+        <!--
+        <nav>
+            <a href="#" id="menu-icon"></a>
+            <ul>
+                <li><a href="./index" class="current">Hjem</a></li>
+                <li><a href="./prosjekter">Prosjekter</a></li>
+                <li><a href="./raspberryPi">Raspberry  Pi</a></li>
+                <li><a href="./vitnem�l">Vitnem�l</a></li>
+                <li><a href="./omMeg">Om meg</a></li>
+                <li><a href="./test">test</a></li>
+            </ul>
+        </nav>
+        -->
+	</header>
+
+
+    <h1 class="location-header" align="center">Criben!</h1>
+    <table class="user table" id="cssTable" align="center">
             <colgroup>
                 {% for user in criben_users %}
                 <col class="{{user.button_color}}" />
@@ -25,42 +62,39 @@
             <tbody>
                 <tr><!-- Display image of the users -->
                     {% for user in criben_users %}
-                    <td class="users body">
-                            <img class="img-circle" src="{{user.img_src}}">
+                        <td class="users body">
+                            <img class="img-circle" onclick="addBeerToServer('{{user.id}}', '{{user.nickname}}')" src="{{user.img_src}}" />
+                            <!--img class="img-circle" src="{{user.img_src}}"-->
                         </td>
                     {% endfor %}
                 </tr>
                 <tr><!-- Display number of beers -->
                     {% for user in criben_users %}
-                    <td class="round">
+                        <td class="round">
                             <div id="beer_{{user.nickname}}" />
-
-                        </td>
+                         </td>
                     {% endfor %}
                 </tr>
                 <tr><!-- Display last drink -->
                     {% for user in criben_users %}
                     <td class="round">
-                            <div id="last_{{user.nickname}}" />
+                        <div id="last_{{user.nickname}}" />
                         </td>
                     {% endfor %}
                 </tr>
                 <tr><!-- Display about me -->
                     {% for user in criben_users %}
-                    <td class="round">
+                        <td class="round">
                             <p class="users about">{{ user.about_me }}</p>
                         </td>
                     {% endfor %}
                 </tr>
             </tbody>
         </table>
-        <table>
-            <thead>
-                <div id='scoreboard_header' class="latest-drinker" /><!-- Lastest drinker -->
-            </thead>
-        </table>
-        <h1 class="latest-drinker">Maggas place</h1>
-        <table class="user table" id="cssTable">
+
+
+        <h1 class="location-header" align="center">Ex-Criben!</h1>
+        <table class="user table" id="cssTable" align="center">
             <colgroup>
                 {% for user in magga_users %}
                     <col class="{{user.button_color}}" />
@@ -77,7 +111,8 @@
                 <tr><!-- Display image of the users -->
                     {% for user in magga_users %}
                         <td class="users body">
-                            <img class="img-circle" src="{{user.img_src}}">
+                            <img class="img-circle" onclick="addBeerToServer('{{user.id}}', '{{user.nickname}}')" src="{{user.img_src}}" />
+                            <!--img class="img-circle" src="{{user.img_src}}"-->
                         </td>
                     {% endfor %}
                 </tr>
@@ -106,12 +141,17 @@
             </tbody>
         </table>
 
-        <script type="text/javascript" charset="utf-8">
-            var socket = io.connect('http://' + document.domain + ':' + location.port);
-            socket.on('connect', function() {
-                socket.emit('my event', {data: 'I\'m connected!'});
-            });
+        <script>
+            function addBeer(id, nickname) {
+                var txt;
+                if (confirm("Did " + nickname + " drink a new beer?") == true) {
+                    txt = "You pressed OK!";
+                    addBeerToServer(id, nickname);
+                } else {
+                    txt = "You pressed Cancel!";
+                }
+            }
         </script>
-    </body>  
+    </body>
 </html>
 

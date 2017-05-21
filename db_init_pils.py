@@ -6,7 +6,6 @@ beers = models.Beer.query.all()
 number_of_beers = 0
 
 # Add location on user
-'''
 for u in users:
     if not u.id == 6:
         u.location = 'Criben'
@@ -14,7 +13,7 @@ for u in users:
         u.location = 'Maggas place'
     db.session.add(u)
 db.session.commit()
-'''
+
 
 
 # Delete all users
@@ -23,10 +22,11 @@ for u in users:
 	db.session.delete(u)
 db.session.commit()
 '''
-# Delete all beers
+# Delete beers
 '''
 for b in beers:
-		db.session.delete(b)
+    if b.id > 69:
+        db.session.delete(b)
 db.session.commit() 
 '''
 # Initialize full database

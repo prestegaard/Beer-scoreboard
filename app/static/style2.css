@@ -6,21 +6,26 @@
 
 #cssTable td {text-align:center; vertical-align:middle;}
 
+#headerTable {vertical-align:middle; width:100%;}
 
-
-
-.users.table {
-    width: 100%;
-    background-color: grey;
-    overflow-wrap: break-word;
-    display: inline;
-
-
-}
 
 .latest-drinker{
     color: lightblue;
-    display: inline-block;
+}
+
+.lead-drinker{
+    color: gold;
+}
+.criben-header{
+    color: navy;
+}
+
+.location-header{
+    padding-top: 2cm;
+    font-size: 200%;
+    //background-color: black;
+    color: navy;
+
 }
 .round{
     border-radius: 25px;
@@ -39,6 +44,9 @@ table {
 }
 .users.body {
     background-color: black;
+    //background-image: url(/static/images/CB_logo.jpg) ;
+    //background-size:  100%;
+    //background-repeat: no-repeat;
   
 }
 
@@ -75,4 +83,66 @@ table {
 }
 .green {
     background-color: green;
+}
+
+
+
+
+
+img {
+	text-align: center;
+	max-width: 100%;
+	height: auto;
+	width: auto;
+}
+a {
+	color: #FFF;
+	text-decoration: none;
+	font-weight: bold;
+}
+a:hover {
+	color: #FFF;
+	text-decoration: underline;
+}
+header {
+	background: #405580;
+	width: 100%;
+	height: 80px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	opacity: 0.90;
+}
+#logo {
+	margin: 20px;
+	float: left;
+	width: 200px;
+	height: 60px;
+	background: url(./JL.png) no-repeat center;
+}
+nav {
+	float: right;
+	padding: 35px 20px 20px 0;
+}
+#menu-icon {
+	display: hidden;
+	width: 40px;
+	height: 40px;
+	background: url(http://www.w3newbie.com/wp-content/uploads/icon.png) center;
+}
+a:hover#menu-icon {
+	boder-radius: 4px 4px 0 0;
+}
+ul {
+	list-style: none;
+}
+nav ul li {
+	display: inline-block;
+	float: left;
+	padding: 10px;
+}
+.current {
+	color: #FFF;
+	text-decoration: underline;
 }

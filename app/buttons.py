@@ -9,6 +9,7 @@ from random import randint
 import time
 from enum import Enum
 import platform
+from flask import jsonify
 
 COMMIT_TO_DB = False
 
@@ -150,6 +151,29 @@ def update_web_page_single_user_info(user_number):
         number = user.nickname + ': ' + str(user.number_of_beers)
         socketio.emit('newnumber', {'number': number}, namespace='/test')   
 '''
+
+
+def update_if_new_current_leader(user_id):
+    users = User.query.all()
+    beers = Beer.query.all()
+
+    current_leader = User.query.get(1)
+    number_of_beers = 0
+    for user in users:
+        tmp_beers = 0
+        for b in beers:
+            for b in beers:
+                if b.drinker == user:
+                    tmp_beers = b.beer_number
+        if tmp_beers > number_of_beers:
+            current_leader = user
+            number_of_beers = tmp_beers
+
+    socketio.emit('current leader socket', {'data': str(current_leader.nickname) + ',' + str(number_of_beers)}, namespace='/test')
+    sleep(0.01)
+
+
+
 def buttons_init():
     GPIO.setup(UserButton.Vegard.value,   GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(UserButton.Karlstad.value, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) 
@@ -167,9 +191,15 @@ def buttons_init():
     #GPIO.add_event_detect(UserButton.Magga.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Magga.value,    UserNumber.Magga.value),       bouncetime=200)
     print ("Buttons are initialized")
 
+
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
     print('Client disconnected')
+
+
+@socketio.on('addNewBeer', namespace='/test')
+def test_addNewBeer():
+    print("NEW BEER!!!!!!!")
 
 
 @socketio.on('connect', namespace='/test')
@@ -183,7 +213,7 @@ def test_connect():
         buttons_initialized = 1
 
     # Thread that simulates button presses when testing on laptop
-    if TEST_ON_LAPTOP == True:
+    if TEST_ON_LAPTOP == False:
         global thread
         if thread is None:
             thread = socketio.start_background_task(target=background_thread)
@@ -199,6 +229,20 @@ def test_connect():
     for beer in beers:
         last_seen_user = beer.drinker
     update_web_page_single_user_info(last_seen_user.id)
+
+@socketio.on('my event')
+def handle_my_custom_event(json):
+    print('received json: ' + str(json))
+
+
+@socketio.on('add beer', namespace='/test')
+def handle_add_beer(json):
+    user_id = json['data']
+    print("NEW BEER FROM CLIENT WITH ID: " + user_id)
+    update_beer_cnt(user_id)
+    update_web_page_single_user_info(user_id)
+    update_web_page_with_sound()
+    update_if_new_current_leader(user_id)
 
 # Thread to simulate button presses every tenth second.
 def background_thread():
