@@ -33,7 +33,7 @@ class User(db.Model):
     beer = db.relationship('Beer', backref='drinker', lazy='dynamic')
     about_me = db.Column(db.String(140))
     img_src = db.Column(db.String(64), index=True)
- 
+    location = db.Column(db.String(140))
     
     def get_id(self):
         try:
@@ -41,14 +41,8 @@ class User(db.Model):
         except NameError:
             return str(self.id)  # python 3
 
-
     def __repr__(self):
-        return '<User: %r\t>' % (self.name)
-
- 
-
-
-
+        return '<User: %r\t>' % self.name
 
 
 class Beer(db.Model):
@@ -58,6 +52,6 @@ class Beer(db.Model):
     timestamp = db.Column(db.DateTime)
 
     def __repr__(self):
-        return '<Beer: %r>' % (self.beer_number)
+        return '<Beer: %r>' % self.beer_number
 
 
