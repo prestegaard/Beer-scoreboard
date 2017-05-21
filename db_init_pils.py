@@ -3,27 +3,34 @@ from app import db, models
 import datetime
 users = models.User.query.all()
 beers = models.Beer.query.all()
+number_of_beers = 0
 
-for u in users:
-    print("ID: {} {}\t {}\t {}\t {}\t".format(u.id, u.name, u.nickname, u.about_me, u.button_color).expandtabs(30))
+# Add location on user
 '''
-    if u.id > 6 :
-        db.session.delete(u)
+for u in users:
+    if not u.id == 6:
+        u.location = 'Criben'
+    elif u.id == 6:
+        u.location = 'Maggas place'
+    db.session.add(u)
 db.session.commit()
 '''
 
 
-
+# Delete all users
 '''
 for u in users:
 	db.session.delete(u)
 db.session.commit()
-
-
+'''
+# Delete all beers
+'''
 for b in beers:
 		db.session.delete(b)
 db.session.commit() 
-
+'''
+# Initialize full database
+'''
 u = models.User(name='Vegard', nickname='Laowi', 	 about_me='Eg e ein Revolveman.', 		button_color='blue', 	img_src='/static/images/vegard.jpg')
 db.session.add(u)
 u = models.User(name='Øyvind', nickname='Karlstad',  about_me='Je et flesk og pannkak.', 	button_color='yellow', 	img_src='/static/images/karlstad.jpg')
