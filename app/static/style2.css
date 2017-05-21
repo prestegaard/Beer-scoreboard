@@ -12,10 +12,16 @@
 .users.table {
     width: 100%;
     background-color: grey;
+    overflow-wrap: break-word;
+    display: inline;
+
 
 }
 
-
+.latest-drinker{
+    color: lightblue;
+    display: inline-block;
+}
 .round{
     border-radius: 25px;
     border: 0px solid #73AD21;
@@ -49,19 +55,6 @@ table {
   
 }
 
-.users.table {
-    overflow-wrap: break-word;
-    display: inline;
-  
-}
-
-.toilet.body{
-    background-color: green;
-}
-.toilet.h1 {
-    color: navy;
-    margin-left: 20px;
-}
 
 .blue {
     background-color: #0080FF;

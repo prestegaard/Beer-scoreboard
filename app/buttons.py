@@ -6,17 +6,33 @@ import datetime
 from datetime import *
 from time import sleep
 from random import randint
-
-# Imports for buttons
-import RPi.GPIO as GPIO
 import time
 from enum import Enum
+import platform
+
+COMMIT_TO_DB = False
+
+sysname = platform.system()
+sysrel = platform.release()
+sysver = platform.version()
+
+print(sysname + " " + sysver + " " )
+
+if 'Ubuntu' in sysver:
+    TEST_ON_LAPTOP = True
+    print("Testing on laptop")
+
+# Imports for buttons
+else:
+    TEST_ON_LAPTOP = False
+    import RPi.GPIO as GPIO
+    GPIO.setmode(GPIO.BCM)
 
 last_press = time.time()
 buttons_initialized = 0
 thread = None
 
-GPIO.setmode(GPIO.BCM)
+
 
 class UserButton(Enum):
     Vegard   = 25 # Blue
@@ -83,7 +99,8 @@ def update_beer_cnt(user_number):
     
     b = Beer(drinker=user, timestamp=datetime.now(), beer_number=number_of_beers+1)
     db.session.add(b)
-    db.session.commit()
+    if COMMIT_TO_DB == True:
+        db.session.commit()
     print ("### {}\t : drank beer number {}\t###".format(user.nickname, b.beer_number).expandtabs(10)) 
 
 
@@ -158,14 +175,18 @@ def test_disconnect():
 @socketio.on('connect', namespace='/test')
 def test_connect():
     print('Client connected')
+    # Must initialize buttons once. This happens when first client connects
     global buttons_initialized
     if not buttons_initialized:
-        buttons_init()
+        if TEST_ON_LAPTOP == False:
+            buttons_init()
         buttons_initialized = 1
 
-    #global thread
-    #if thread is None:
-    #    thread = socketio.start_background_task(target=background_thread)
+    # Thread that simulates button presses when testing on laptop
+    if TEST_ON_LAPTOP == True:
+        global thread
+        if thread is None:
+            thread = socketio.start_background_task(target=background_thread)
 
     last_seen_user = User.query.get(1)
 
@@ -179,7 +200,7 @@ def test_connect():
         last_seen_user = beer.drinker
     update_web_page_single_user_info(last_seen_user.id)
 
-
+# Thread to simulate button presses every tenth second.
 def background_thread():
     print ("Starting for loop")
     i = 0
@@ -190,7 +211,7 @@ def background_thread():
             update_web_page_single_user_info(i)
             update_web_page_with_sound()
             print("Message sent from for loop: {}".format(i))
-            socketio.sleep(10)
+            socketio.sleep(2)
 
 
 

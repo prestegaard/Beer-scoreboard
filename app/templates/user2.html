@@ -1,78 +1,103 @@
 <!DOCTYPE html>
-  <head>
+<head>
     <meta name="mobile-web-app-capable" content="yes">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!--script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script-->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
     <script src="/static/js/update_beer_count.js"></script>
-    <link rel="stylesheet" href='/static/style2.css' />   
-  </head>  
-    <body class="users body">
-        <table class="user table" id="cssTable">
-           
+    <link rel="stylesheet" href='/static/style2.css' />
+</head>
+<body class="users body">
+    <h1 class="latest-drinker">Criben!</h1>
+    <table class="user table" id="cssTable">
             <colgroup>
-              <col class="blue"   />
-              <col class="yellow" />
-              <col class="red"    />
-              <col class="white"  />
-              <col class="pink"   />
-              <col class="green"  />
+                {% for user in criben_users %}
+                <col class="{{user.button_color}}" />
+                {% endfor %}
             </colgroup>
             <thead style="display:table-header-group;">
-                <tr>
-                    {% for user in users %}
+            <tr><!-- Dipplay nickname in header aboce the users -->
+                    {% for user in criben_users %}
+                    <th class="nickname header">{{user.nickname}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr><!-- Display image of the users -->
+                    {% for user in criben_users %}
+                    <td class="users body">
+                            <img class="img-circle" src="{{user.img_src}}">
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr><!-- Display number of beers -->
+                    {% for user in criben_users %}
+                    <td class="round">
+                            <div id="beer_{{user.nickname}}" />
+
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr><!-- Display last drink -->
+                    {% for user in criben_users %}
+                    <td class="round">
+                            <div id="last_{{user.nickname}}" />
+                        </td>
+                    {% endfor %}
+                </tr>
+                <tr><!-- Display about me -->
+                    {% for user in criben_users %}
+                    <td class="round">
+                            <p class="users about">{{ user.about_me }}</p>
+                        </td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+        <table>
+            <thead>
+                <div id='scoreboard_header' class="latest-drinker" /><!-- Lastest drinker -->
+            </thead>
+        </table>
+        <h1 class="latest-drinker">Maggas place</h1>
+        <table class="user table" id="cssTable">
+            <colgroup>
+                {% for user in magga_users %}
+                    <col class="{{user.button_color}}" />
+                {% endfor %}
+            </colgroup>
+            <thead style="display:table-header-group;">
+                <tr><!-- Dipplay nickname in header aboce the users -->
+                    {% for user in magga_users %}
                         <th class="nickname header">{{user.nickname}}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    {% for user in users %}
+                <tr><!-- Display image of the users -->
+                    {% for user in magga_users %}
                         <td class="users body">
                             <img class="img-circle" src="{{user.img_src}}">
                         </td>
                     {% endfor %}
                 </tr>
-                <tr >
-                    {% for user in users %}
+                <tr><!-- Display number of beers -->
+                    {% for user in magga_users %}
                         <td class="round">
-                            {% if user.nickname == 'Laowi'  %}
-                                <div id='beer_Laowi' />
-                            {% elif user.nickname == 'Karlstad'  %}
-                                <div id='beer_Karlstad' />
-                            {% elif user.nickname == 'Haagon'  %}
-                                <div id='beer_Haagon' />
-                            {% elif user.nickname == 'Doktor'  %}
-                                <div id='beer_Doktor' />
-                            {% elif user.nickname == 'Osterpus'  %}
-                                <div id='beer_Osterpus' />
-                            {% elif user.nickname == 'Bassen'  %}
-                                <div id='beer_Bassen' />
-                            {% endif  %}
+                            <div id="beer_{{user.nickname}}" />
+
                         </td>
                     {% endfor %}
                 </tr>
-                <tr >
-                    {% for user in users %}
+                <tr><!-- Display last drink -->
+                    {% for user in magga_users %}
                         <td class="round">
-                            {% if user.nickname == 'Laowi'  %}
-                                <div id='last_Laowi' />
-                            {% elif user.nickname == 'Karlstad'  %}
-                                <div id='last_Karlstad' />
-                            {% elif user.nickname == 'Haagon'  %}
-                                <div id='last_Haagon' />
-                            {% elif user.nickname == 'Doktor'  %}
-                                <div id='last_Doktor' />
-                            {% elif user.nickname == 'Osterpus'  %}
-                                <div id='last_Osterpus' />
-                            {% elif user.nickname == 'Bassen'  %}
-                                <div id='last_Bassen' />
-                            {% endif  %}
+                            <div id="last_{{user.nickname}}" />
                         </td>
                     {% endfor %}
                 </tr>
-                <tr >
-                    {% for user in users %}
+                <tr><!-- Display about me -->
+                    {% for user in magga_users %}
                         <td class="round">
                             <p class="users about">{{ user.about_me }}</p>
                         </td>
@@ -80,7 +105,7 @@
                 </tr>
             </tbody>
         </table>
-        <div id='scoreboard_header' style='color: lightblue;'>
+
         <script type="text/javascript" charset="utf-8">
             var socket = io.connect('http://' + document.domain + ':' + location.port);
             socket.on('connect', function() {

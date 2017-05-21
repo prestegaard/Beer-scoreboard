@@ -23,7 +23,7 @@ $(document).ready(function(){
     socket.on('last seen socket', function(msg) {
         last_seen = msg.data;
         nickname_string = '';
-        nickname_string = nickname_string + '<h1>' + 'Lastest drinker: ' + nickname.toString() + '</h1>';
+        nickname_string = nickname_string + '<h1>' + 'Latest drinker: ' + nickname.toString() + '</h1>';
 
         number_of_beers_string = '';
         number_of_beers_string = number_of_beers_string + '<p><i>' + 'Number of beers: '  + number.toString() + '</i></p>';
