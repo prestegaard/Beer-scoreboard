@@ -44,72 +44,123 @@
         -->
 	</header>
 
-
+    <!-- TABLE FOR CRIBEN MEMBERS-->
     <h1 class="location-header" align="center">Criben!</h1>
     <table class="user table" id="cssTable" align="center">
-            <colgroup>
+        <colgroup>
+            {% for user in criben_users %}
+            <col class="{{user.button_color}}" />
+            {% endfor %}
+        </colgroup>
+        <thead style="display:table-header-group;">
+        <tr><!-- Display nickname in header above the users -->
                 {% for user in criben_users %}
-                <col class="{{user.button_color}}" />
+                <th class="nickname header">{{user.nickname}}</th>
                 {% endfor %}
-            </colgroup>
-            <thead style="display:table-header-group;">
-            <tr><!-- Dipplay nickname in header aboce the users -->
-                    {% for user in criben_users %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr><!-- Display image of the users -->
+                {% for user in criben_users %}
+                    <td class="users body">
+                        <img class="img-circle" onclick="addBeerToServer('{{user.id}}', '{{user.nickname}}')" src="{{user.img_src}}" />
+                        <!--img class="img-circle" src="{{user.img_src}}"-->
+                    </td>
+                {% endfor %}
+            </tr>
+            <tr><!-- Display number of beers -->
+                {% for user in criben_users %}
+                    <td class="round">
+                        <div id="beer_{{user.nickname}}" />
+                     </td>
+                {% endfor %}
+            </tr>
+            <tr><!-- Display last drink -->
+                {% for user in criben_users %}
+                <td class="round">
+                    <div id="last_{{user.nickname}}" />
+                    </td>
+                {% endfor %}
+            </tr>
+            <tr><!-- Display about me -->
+                {% for user in criben_users %}
+                    <td class="round">
+                        <p class="users about">{{ user.about_me }}</p>
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- TABLE FOR EX-CRIBEN MEMBERS -->
+    <h1 class="location-header" align="center">Ex-Criben!</h1>
+    <table class="user table" id="cssTable" align="center">
+        <colgroup>
+            {% for user in criben_old %}
+                <col class="{{user.button_color}}" />
+            {% endfor %}
+        </colgroup>
+        <thead style="display:table-header-group;">
+            <tr><!-- Display nickname in header above the users -->
+                {% for user in criben_old %}
                     <th class="nickname header">{{user.nickname}}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                <tr><!-- Display image of the users -->
-                    {% for user in criben_users %}
-                        <td class="users body">
-                            <img class="img-circle" onclick="addBeerToServer('{{user.id}}', '{{user.nickname}}')" src="{{user.img_src}}" />
-                            <!--img class="img-circle" src="{{user.img_src}}"-->
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr><!-- Display number of beers -->
-                    {% for user in criben_users %}
-                        <td class="round">
-                            <div id="beer_{{user.nickname}}" />
-                         </td>
-                    {% endfor %}
-                </tr>
-                <tr><!-- Display last drink -->
-                    {% for user in criben_users %}
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            <tr><!-- Display image of the users -->
+                {% for user in criben_old %}
+                    <td class="users body">
+                        <img class="img-circle" onclick="addBeerToServer('{{user.id}}', '{{user.nickname}}')" src="{{user.img_src}}" />
+                        <!--img class="img-circle" src="{{user.img_src}}"-->
+                    </td>
+                {% endfor %}
+            </tr>
+            <tr><!-- Display number of beers -->
+                {% for user in criben_old %}
+                    <td class="round">
+                        <div id="beer_{{user.nickname}}" />
+
+                    </td>
+                {% endfor %}
+            </tr>
+            <tr><!-- Display last drink -->
+                {% for user in criben_old %}
                     <td class="round">
                         <div id="last_{{user.nickname}}" />
-                        </td>
-                    {% endfor %}
-                </tr>
-                <tr><!-- Display about me -->
-                    {% for user in criben_users %}
-                        <td class="round">
-                            <p class="users about">{{ user.about_me }}</p>
-                        </td>
-                    {% endfor %}
-                </tr>
-            </tbody>
-        </table>
+                    </td>
+                {% endfor %}
+            </tr>
+            <tr><!-- Display about me -->
+                {% for user in criben_old %}
+                    <td class="round">
+                        <p class="users about">{{ user.about_me }}</p>
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
 
-
-        <h1 class="location-header" align="center">Ex-Criben!</h1>
+    <!-- TABLE FOR GUEST MEMBERS -->
+    <h1 class="location-header" align="center">Guests!</h1>
+    {% for row in guests_users %}
         <table class="user table" id="cssTable" align="center">
+        
             <colgroup>
-                {% for user in magga_users %}
+                {% for user in row %}
                     <col class="{{user.button_color}}" />
                 {% endfor %}
             </colgroup>
             <thead style="display:table-header-group;">
-                <tr><!-- Dipplay nickname in header aboce the users -->
-                    {% for user in magga_users %}
+                <tr><!-- Display nickname in header above the users -->
+                    {% for user in row %}
                         <th class="nickname header">{{user.nickname}}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 <tr><!-- Display image of the users -->
-                    {% for user in magga_users %}
+                    {% for user in row %}
                         <td class="users body">
                             <img class="img-circle" onclick="addBeerToServer('{{user.id}}', '{{user.nickname}}')" src="{{user.img_src}}" />
                             <!--img class="img-circle" src="{{user.img_src}}"-->
@@ -117,7 +168,7 @@
                     {% endfor %}
                 </tr>
                 <tr><!-- Display number of beers -->
-                    {% for user in magga_users %}
+                    {% for user in row %}
                         <td class="round">
                             <div id="beer_{{user.nickname}}" />
 
@@ -125,14 +176,14 @@
                     {% endfor %}
                 </tr>
                 <tr><!-- Display last drink -->
-                    {% for user in magga_users %}
+                    {% for user in row %}
                         <td class="round">
                             <div id="last_{{user.nickname}}" />
                         </td>
                     {% endfor %}
                 </tr>
                 <tr><!-- Display about me -->
-                    {% for user in magga_users %}
+                    {% for user in row %}
                         <td class="round">
                             <p class="users about">{{ user.about_me }}</p>
                         </td>
@@ -140,18 +191,19 @@
                 </tr>
             </tbody>
         </table>
+    {% endfor %}
 
-        <script>
-            function addBeer(id, nickname) {
-                var txt;
-                if (confirm("Did " + nickname + " drink a new beer?") == true) {
-                    txt = "You pressed OK!";
-                    addBeerToServer(id, nickname);
-                } else {
-                    txt = "You pressed Cancel!";
-                }
+    <script>
+        function addBeer(id, nickname) {
+            var txt;
+            if (confirm("Did " + nickname + " drink a new beer?") == true) {
+                txt = "You pressed OK!";
+                addBeerToServer(id, nickname);
+            } else {
+                txt = "You pressed Cancel!";
             }
-        </script>
-    </body>
+        }
+    </script>
+</body>
 </html>
 

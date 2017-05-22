@@ -16,18 +16,25 @@ def index():
     criben.append(User.query.get(5)) # Vetle
     criben.append(User.query.get(2)) # Karlstad
 
-    maggas_place = []
+    criben_old = []
     guests = []
     for u in users:
-        if u.location == 'Maggas place':
-            maggas_place.append(u)
-        elif u.location == 'Guest':
+        if u.location == 'VIPs':
+            criben_old.append(u)
+        elif u.location == 'Guests':
             guests.append(u)
+
+    # Format guests to be an n-by-6 matrix
+    guests_formatted = [][]
+    for row in xrange(0,len(guests)/6+1):
+        for col in xrange(0,6):
+             guests_formatted[row][col] = guests[row*6 + col]
+
 
     return render_template('user2.html',
                            criben_users=criben,
-                           magga_users=maggas_place,
-                           guests_users=guests
+                           criben_users_old=criben_old,
+                           guests_users=guests_formatted
                            )
 
 

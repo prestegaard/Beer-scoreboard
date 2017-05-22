@@ -54,15 +54,14 @@ class UserNumber(Enum):
 
 
 
-
 def buttonPressed(user_pin, user_number): 
     global last_press
 
     button_is_truly_pressed_flag = 0 
-    print ("RIGSING BUTTON DETECTED, PIN: {}".format(user_pin))
+    print ("RISING BUTTON DETECTED, PIN: {}".format(user_pin))
     now = time.time()
     if now - last_press < 2:
-        print("NOT ENGOUGH TIME FROM LAST RISING BUTTON\n")
+        print("NOT ENOUGH TIME FROM LAST RISING BUTTON\n")
         return
 
     timeout = time.time() + 0.200   # 200 milliseconds from now
@@ -72,7 +71,7 @@ def buttonPressed(user_pin, user_number):
         time.sleep(0.001)    
         if time.time() > timeout:
             button_is_truly_pressed_flag = 1
-            print ("MORE THAN ENGOUGH PRESS TIME ON BUTTON, beer approved!\n")
+            print ("MORE THAN ENOUGH PRESS TIME ON BUTTON, beer approved!\n")
             break
 
     if (not button_is_truly_pressed_flag):
@@ -181,7 +180,7 @@ def buttons_init():
     GPIO.setup(UserButton.Simen.value,    GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(UserButton.Vetle.value,    GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(UserButton.Rune.value,     GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-    
+  
     GPIO.add_event_detect(UserButton.Vegard.value,   GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Vegard.value,   UserNumber.Vegard.value),      bouncetime=200)
     GPIO.add_event_detect(UserButton.Karlstad.value, GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Karlstad.value, UserNumber.Karlstad.value),    bouncetime=200)
     GPIO.add_event_detect(UserButton.Haagon.value,   GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Haagon.value,   UserNumber.Haagon.value),      bouncetime=200)
