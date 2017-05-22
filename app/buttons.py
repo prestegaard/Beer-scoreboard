@@ -11,7 +11,7 @@ from enum import Enum
 import platform
 from flask import jsonify
 
-COMMIT_TO_DB = False
+COMMIT_TO_DB = True
 
 sysname = platform.system()
 sysrel = platform.release()
@@ -106,14 +106,14 @@ def update_beer_cnt(user_number):
 
 def update_web_page_with_sound(user_id):
     # Check if this is beer number 6 within 4h
-    time_limit = time.time() - 60*60*4
-    beers = modes.Beer.query.all().filter(Beer.user_id == user_id, Beer.timestamp > time_limit)
-    if (len(beers > 6)) {
+    time_limit = datetime.now() - timedelta(seconds=4*60*60)
+    beers = models.Beer.query.filter(Beer.user_id == user_id).filter(Beer.timestamp > time_limit).all()
+
+    if len(beers) % 6 == 0:
         sound_number = '_drunk'
-    }
-    else {
+    else:
         sound_number = randint(1, 14)  # Integer, endpoints included
-    }
+
     socketio.emit('play sound socket', {'data': str(sound_number)}, namespace='/test')
     sleep(0.01)
     print("Sound number: {}".format(sound_number))    
