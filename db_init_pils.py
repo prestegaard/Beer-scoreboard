@@ -7,10 +7,12 @@ number_of_beers = 0
 
 # Add location on user
 for u in users:
-    if not u.id == 6:
+    if u.id <= 7:
         u.location = 'Criben'
-    elif u.id == 6:
-        u.location = 'Maggas place'
+    if u.id == 6:
+        u.location = 'VIPs'
+    if u.id > 7:
+        u.location = 'Guests'
     db.session.add(u)
 db.session.commit()
 

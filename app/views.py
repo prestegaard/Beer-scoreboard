@@ -1,6 +1,7 @@
 from flask import render_template
 from app import app
 from .models import User
+import math
 
 
 @app.route('/')
@@ -24,16 +25,19 @@ def index():
         elif u.location == 'Guests':
             guests.append(u)
 
+
     # Format guests to be an n-by-6 matrix
-    guests_formatted = [][]
-    for row in xrange(0,len(guests)/6+1):
-        for col in xrange(0,6):
+    guests_formatted = []
+    number_of_rows = math.ceil(len(guests)/6)
+
+    for row in range(0, number_of_rows):
+        for col in range(0,6):
              guests_formatted[row][col] = guests[row*6 + col]
 
 
     return render_template('user2.html',
                            criben_users=criben,
-                           criben_users_old=criben_old,
+                           criben_old=criben_old,
                            guests_users=guests_formatted
                            )
 
