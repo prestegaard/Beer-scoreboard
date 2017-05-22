@@ -1,5 +1,5 @@
 
-from app import app, db, socketio
+from app import app, db, socketio, models
 from .models import User
 from .models import Beer
 import datetime
@@ -85,7 +85,7 @@ def buttonPressed(user_pin, user_number):
     update_beer_cnt(user_number)
     # Update web page
     update_web_page_single_user_info(user_number)
-    update_web_page_with_sound()
+    update_web_page_with_sound(user_number)
 
 def update_beer_cnt(user_number):
     # Content here is somewhat equal to content of db_add_beer.py
@@ -104,11 +104,19 @@ def update_beer_cnt(user_number):
     print ("### {}\t : drank beer number {}\t###".format(user.nickname, b.beer_number).expandtabs(10)) 
 
 
-def update_web_page_with_sound():
-    sound_number = randint(1, 14)  # Integer, endpoints included
+def update_web_page_with_sound(user_id):
+    # Check if this is beer number 6 within 4h
+    time_limit = time.time() - 60*60*4
+    beers = modes.Beer.query.all().filter(Beer.user_id == user_id, Beer.timestamp > time_limit)
+    if (len(beers > 6)) {
+        sound_number = '_drunk'
+    }
+    else {
+        sound_number = randint(1, 14)  # Integer, endpoints included
+    }
     socketio.emit('play sound socket', {'data': str(sound_number)}, namespace='/test')
     sleep(0.01)
-    print("Sound number: {}".format(sound_number))
+    print("Sound number: {}".format(sound_number))    
 
 
 def update_web_page_single_user_info(user_number):
@@ -240,7 +248,7 @@ def handle_add_beer(json):
     print("NEW BEER FROM CLIENT WITH ID: " + user_id)
     update_beer_cnt(user_id)
     update_web_page_single_user_info(user_id)
-    update_web_page_with_sound()
+    update_web_page_with_sound(user_id)
     update_if_new_current_leader(user_id)
 
 # Thread to simulate button presses every tenth second.
