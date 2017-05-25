@@ -16,7 +16,7 @@
              <thead style="display:table-header-group;">
                 <tr>
                     <th style="width: 30%;">
-                        <div class="latest-drinker"   id='scoreboard_header' /><!-- Lastest drinker -->
+                        <div class="latest-drinker"   id='latest_user_header' /><!-- Lastest drinker -->
                     </th>
                     <th style="width: 40%;">
                         <h1  class="criben-header" align="center">Criben pilstavle</h1>
@@ -71,14 +71,14 @@
             <tr><!-- Display number of beers -->
                 {% for user in criben_users %}
                     <td class="round">
-                        <div id="beer_{{user.nickname}}" />
+                        <div id="beer_{{user.id}}_{{user.nickname}}" />
                      </td>
                 {% endfor %}
             </tr>
             <tr><!-- Display last drink -->
                 {% for user in criben_users %}
                 <td class="round">
-                    <div id="last_{{user.nickname}}" />
+                    <div id="last_{{user.id}}_{{user.nickname}}" />
                     </td>
                 {% endfor %}
             </tr>
@@ -119,7 +119,7 @@
             <tr><!-- Display number of beers -->
                 {% for user in criben_old %}
                     <td class="round">
-                        <div id="beer_{{user.nickname}}" />
+                        <div id="beer_{{user.id}}_{{user.nickname}}" />
 
                     </td>
                 {% endfor %}
@@ -127,7 +127,7 @@
             <tr><!-- Display last drink -->
                 {% for user in criben_old %}
                     <td class="round">
-                        <div id="last_{{user.nickname}}" />
+                        <div id="last_{{user.id}}_{{user.nickname}}" />
                     </td>
                 {% endfor %}
             </tr>
@@ -170,7 +170,7 @@
                 <tr><!-- Display number of beers -->
                     {% for user in row %}
                         <td class="round">
-                            <div id="beer_{{user.nickname}}" />
+                            <div id="beer_{{user.id}}_{{user.nickname}}" />
 
                         </td>
                     {% endfor %}
@@ -178,7 +178,7 @@
                 <tr><!-- Display last drink -->
                     {% for user in row %}
                         <td class="round">
-                            <div id="last_{{user.nickname}}" />
+                            <div id="last_{{user.id}}_{{user.nickname}}" />
                         </td>
                     {% endfor %}
                 </tr>

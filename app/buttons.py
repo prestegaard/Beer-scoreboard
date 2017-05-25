@@ -53,7 +53,6 @@ class UserNumber(Enum):
     Rune     = 7
 
 
-
 def buttonPressed(user_pin, user_number): 
     global last_press
 
@@ -87,6 +86,7 @@ def buttonPressed(user_pin, user_number):
     update_web_page_single_user_info(user_number)
     update_web_page_with_sound(user_number)
 
+
 def update_beer_cnt(user_number):
     # Content here is somewhat equal to content of db_add_beer.py
     user = User.query.get(user_number)
@@ -94,14 +94,14 @@ def update_beer_cnt(user_number):
 
     number_of_beers = 0
     for b in beers:
-        if(b.drinker == user):
+        if b.drinker == user:
             number_of_beers += 1
     
     b = Beer(drinker=user, timestamp=datetime.now(), beer_number=number_of_beers+1)
     db.session.add(b)
-    if COMMIT_TO_DB == True:
+    if COMMIT_TO_DB:
         db.session.commit()
-    print ("### {}\t : drank beer number {}\t###".format(user.nickname, b.beer_number).expandtabs(10)) 
+    print ("### {}: {}\t : drank beer number {}\t###".format(user.id, user.nickname, b.beer_number).expandtabs(10))
 
 
 def update_web_page_with_sound(user_id):
@@ -126,41 +126,22 @@ def update_web_page_single_user_info(user_number):
     number_of_beers = 0
     last_seen = datetime.now() # Dummy to get correct data type
     for b in beers:
-        if(b.drinker == user):
+        if b.drinker == user:
             number_of_beers = b.beer_number
             last_seen = b.timestamp
 
     last_seen = last_seen.strftime("%Y-%m-%d %H:%M:%S")
-    if(number_of_beers == 0 ):
+    if number_of_beers == 0:
         number_of_beers = 'none'
         last_seen = 'never'
-    # Create message to send
-    msg = { 'nickname': str(user.nickname), 
-            'number_of_beers': str(number_of_beers),
-            'last_seen_on': str(last_seen)
-            }
-    
-    socketio.emit('nickname socket', {'data': str(user.nickname)}, namespace='/test')
-    sleep(0.01)
-    socketio.emit('beer socket', {'data': str(number_of_beers)}, namespace='/test')
-    sleep(0.01)
-    socketio.emit('last seen socket', {'data': str(last_seen)}, namespace='/test')
-    sleep(0.01)
-    
-    print("WEBPAGE UPDATED")
-    # Did not work 'users socket'
-    #socketio.emit('user socket', data=(user.nickname, user.number_of_beers, user.last_seen_on), namespace='/test') 
 
-    # Update client side with the new number of beers
-    '''
-    users = User.query.all()
-    for user in users:
-        number = user.nickname + ': ' + str(user.number_of_beers)
-        socketio.emit('newnumber', {'number': number}, namespace='/test')   
-'''
+    socketio.emit('new beer socket', {'data': str(user.id) + ',' + str(user.nickname) + ',' + str(number_of_beers) + ',' + str(last_seen)}, namespace='/test')
+    sleep(0.01)
+
+    print("WEBPAGE SINGLE USER UPDATE: ID = " + str(user.id) + ", NICKNAME =  " + str(user.nickname) + ", NUMBER OF BEERS = " + str(number_of_beers))
 
 
-def update_if_new_current_leader(user_id):
+def get_current_leader():
     users = User.query.all()
     beers = Beer.query.all()
 
@@ -169,17 +150,30 @@ def update_if_new_current_leader(user_id):
     for user in users:
         tmp_beers = 0
         for b in beers:
-            for b in beers:
-                if b.drinker == user:
-                    tmp_beers = b.beer_number
+            if b.drinker == user:
+                tmp_beers = b.beer_number
         if tmp_beers > number_of_beers:
             current_leader = user
             number_of_beers = tmp_beers
 
-    socketio.emit('current leader socket', {'data': str(current_leader.nickname) + ',' + str(number_of_beers)}, namespace='/test')
+    result = []
+    result.append(current_leader.id)
+    result.append(current_leader.nickname)
+    result.append(number_of_beers)
+    return result
+
+
+def update_if_new_current_leader(user_id):
+    current_leader = get_current_leader()
+    if str(current_leader[0]) ==str(user_id):
+        socketio.emit('current leader socket', {'data': str(current_leader[1]) + ',' + str(current_leader[2])}, namespace='/test')
+        sleep(0.01)
+
+
+def update_web_page_current_leader():
+    current_leader = get_current_leader()
+    socketio.emit('current leader socket', {'data': str(current_leader[1]) + ',' + str(current_leader[2])}, namespace='/test')
     sleep(0.01)
-
-
 
 def buttons_init():
     GPIO.setup(UserButton.Vegard.value,   GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -195,18 +189,13 @@ def buttons_init():
     GPIO.add_event_detect(UserButton.Simen.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Simen.value,    UserNumber.Simen.value),       bouncetime=200)
     GPIO.add_event_detect(UserButton.Vetle.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Vetle.value,    UserNumber.Vetle.value),       bouncetime=200)
     GPIO.add_event_detect(UserButton.Rune.value,     GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Rune.value,     UserNumber.Rune.value),        bouncetime=200)
-    #GPIO.add_event_detect(UserButton.Magga.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Magga.value,    UserNumber.Magga.value),       bouncetime=200)
-    print ("Buttons are initialized")
+    # GPIO.add_event_detect(UserButton.Magga.value,    GPIO.RISING,  callback=lambda x: buttonPressed(UserButton.Magga.value,    UserNumber.Magga.value),       bouncetime=200)
+    print("Buttons are initialized")
 
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
     print('Client disconnected')
-
-
-@socketio.on('addNewBeer', namespace='/test')
-def test_addNewBeer():
-    print("NEW BEER!!!!!!!")
 
 
 @socketio.on('connect', namespace='/test')
@@ -215,15 +204,15 @@ def test_connect():
     # Must initialize buttons once. This happens when first client connects
     global buttons_initialized
     if not buttons_initialized:
-        if TEST_ON_LAPTOP == False:
+        if not TEST_ON_LAPTOP:
             buttons_init()
         buttons_initialized = 1
 
     # Thread that simulates button presses when testing on laptop
-    if TEST_ON_LAPTOP == False:
-        global thread
-        if thread is None:
-            thread = socketio.start_background_task(target=background_thread)
+    #if TEST_ON_LAPTOP == False:
+    #    global thread
+    #    if thread is None:
+    #        thread = socketio.start_background_task(target=background_thread)
 
     last_seen_user = User.query.get(1)
 
@@ -236,10 +225,7 @@ def test_connect():
     for beer in beers:
         last_seen_user = beer.drinker
     update_web_page_single_user_info(last_seen_user.id)
-
-@socketio.on('my event')
-def handle_my_custom_event(json):
-    print('received json: ' + str(json))
+    update_web_page_current_leader()
 
 
 @socketio.on('add beer', namespace='/test')

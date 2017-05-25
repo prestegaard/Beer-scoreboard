@@ -5,3 +5,4 @@ app/*pyc
 db_repository/*pyc
 flask/
 .idea/
+app.db

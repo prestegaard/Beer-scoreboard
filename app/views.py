@@ -19,27 +19,45 @@ def index():
 
     criben_old = []
     guests = []
+    number_of_guests = 0
     for u in users:
         if u.location == 'VIPs':
             criben_old.append(u)
         elif u.location == 'Guests':
+            number_of_guests += 1
             guests.append(u)
 
-
     # Format guests to be an n-by-6 matrix
-    guests_formatted = []
-    number_of_rows = math.ceil(len(guests)/6)
+    number_of_guest_rows = math.ceil(len(guests) / 6)
+    print("\n\n\n###### NUMBER OF ROWS FOR GUEST USERS: " + str(number_of_guest_rows))
 
-    for row in range(0, number_of_rows):
-        for col in range(0,6):
-             guests_formatted[row][col] = guests[row*6 + col]
+    # Creates a list containing number_of_guest_rows lists, each of 6 items, all set to 0
 
+    Matrix = [[0 for x in range(0, 6)] for y in range(number_of_guest_rows)]
+    # Matrix2 = [[6][number_of_guest_rows]]
+
+    for row in range(0, number_of_guest_rows):
+        for col in range(0, 6):
+            if row * 6 + col < number_of_guests:
+                Matrix[row][col] = guests[row * 6 + col]
+                print("Row: " + str(row) + " Col: " + str(col) + " " + guests[row * 6 + col].nickname)
+            else:
+                break
+
+    line_number = 0
+    for row in Matrix:
+        print("Guest line: " + str(line_number), end='')
+        line_number += 1
+        for user in row:
+            print(", {}".format(user.nickname), end='')
+        print("")
 
     return render_template('user2.html',
                            criben_users=criben,
                            criben_old=criben_old,
-                           guests_users=guests_formatted
+                           guests_users=Matrix
                            )
+
 
 
 

@@ -38,23 +38,28 @@ $(document).ready(function(){
         number = msg.data;
     });
     // Using third socket in the sequence to display received data
-    socket.on('last seen socket', function(msg) {
-        last_seen = msg.data;
+    socket.on('new beer socket', function(msg) {
+        msg_string = msg.data;
+        var array = msg_string.split(',');
+        user_id           = array[0];
+        user_nickname     = array[1];
+        user_beer_number  = array[2];
+        user_last_seen    = array[3];
+
         nickname_string = '';
-        nickname_string = nickname_string + '<h1>' + 'Latest drinker: ' + nickname.toString() + '</h1>';
+        nickname_string = nickname_string + '<h1>' + 'Latest drinker: ' + user_nickname.toString() + '</h1>';
 
         number_of_beers_string = '';
-        number_of_beers_string = number_of_beers_string + '<p><i>' + 'Number of beers: '  + number.toString() + '</i></p>';
+        number_of_beers_string = number_of_beers_string + '<p><i>' + 'Number of beers: '  + user_beer_number.toString() + '</i></p>';
         
         last_seen_string = '';
-        last_seen_string = last_seen_string + '<p>' + 'Latest beer: ' + last_seen.toString() + '</p>';
+        last_seen_string = last_seen_string + '<p>' + 'Latest beer: ' + user_last_seen.toString() + '</p>';
         
 
-        id_beer      = '#' + 'beer_' + nickname.toString();
-        id_last_seen = '#' + 'last_' + nickname.toString();
-        //if(nickname.toString == 'laowi')
-        //id = '#' + 'Karlstad';
-        $('#scoreboard_header').html(nickname_string);
+        id_beer      = '#' + 'beer_' + user_id.toString() + '_' + user_nickname.toString();
+        id_last_seen = '#' + 'last_' + user_id.toString() + '_' + user_nickname.toString();
+
+        $('#latest_user_header').html(nickname_string);
         $(id_beer).html(number_of_beers_string);
         $(id_last_seen).html(last_seen_string);
     });

@@ -31,7 +31,6 @@ for b in beers:
         db.session.delete(b)
 db.session.commit() 
 '''
-# Initialize full database
 '''
 u = models.User(name='Vegard', nickname='Laowi', 	 about_me='Eg e ein Revolveman.', 		button_color='blue', 	img_src='/static/images/vegard.jpg')
 db.session.add(u)
@@ -47,6 +46,7 @@ u = models.User(name='Magnus', nickname='Magga', 	 about_me='Jeg flyr drone, ass
 db.session.add(u)
 db.session.commit()
 '''
+# Initialize full database
 
 # Delete specific user
 '''
