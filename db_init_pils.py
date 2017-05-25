@@ -7,11 +7,11 @@ number_of_beers = 0
 
 # Add location on user
 for u in users:
-    if u.id <= 7:
+    if u.id <= 5 or u.id == 7:
         u.location = 'Criben'
-    if u.id == 6:
+    elif u.id == 6 or u.id == 9:
         u.location = 'VIPs'
-    if u.id > 7:
+    else:
         u.location = 'Guests'
     db.session.add(u)
 db.session.commit()
@@ -57,7 +57,7 @@ for u in users:
 
 # Add specific user
 '''
-u = models.User(name='Rune', nickname='Bassen', 	 about_me='Jeg er smøregutt!', 	button_color='yellow', 	img_src='/static/images/rune.jpg')
+u = models.User(name='Gunnar', nickname='Gummy', 	 about_me='Kommersielle helvette!', 	button_color='red', 	img_src='/static/images/gunnar.jpg')
 db.session.add(u)
 db.session.commit()
 '''
