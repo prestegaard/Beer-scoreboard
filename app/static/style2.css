@@ -17,11 +17,11 @@
     color: gold;
 }
 .criben-header{
-    color: navy;
+    color: red;
 }
 
 .location-header{
-    padding-top: 2cm;
+    padding-top: 3cm;
     font-size: 200%;
     //background-color: black;
     color: navy;
@@ -107,7 +107,7 @@ a:hover {
 header {
 	background: #405580;
 	width: 100%;
-	height: 80px;
+	height: 130px;
 	position: fixed;
 	top: 0;
 	left: 0;
