@@ -31,15 +31,13 @@ def index():
     number_of_guest_rows = math.ceil(len(guests) / 6)
     print("\n\n\n###### NUMBER OF ROWS FOR GUEST USERS: " + str(number_of_guest_rows))
 
-    # Creates a list containing number_of_guest_rows lists, each of 6 items, all set to 0
-
-    Matrix = [[0 for x in range(0, 6)] for y in range(number_of_guest_rows)]
-    # Matrix2 = [[6][number_of_guest_rows]]
+    # Creates a list containing number_of_guest_rows lists
+    Matrix = [[] for x in range(0, number_of_guest_rows)]
 
     for row in range(0, number_of_guest_rows):
         for col in range(0, 6):
             if row * 6 + col < number_of_guests:
-                Matrix[row][col] = guests[row * 6 + col]
+                Matrix[row].append(guests[row * 6 + col])
                 print("Row: " + str(row) + " Col: " + str(col) + " " + guests[row * 6 + col].nickname)
             else:
                 break
@@ -49,7 +47,8 @@ def index():
         print("Guest line: " + str(line_number), end='')
         line_number += 1
         for user in row:
-            print(", {}".format(user.nickname), end='')
+            if not user == 0 :
+                print(", {}".format(user.nickname), end='')
         print("")
 
     return render_template('user2.html',
