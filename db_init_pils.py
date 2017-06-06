@@ -57,7 +57,7 @@ for u in users:
 
 # Add specific user
 '''
-u = models.User(name='Gunnar', nickname='Gummy', 	 about_me='Kommersielle helvette!', 	button_color='red', 	img_src='/static/images/gunnar.jpg')
+u = models.User(name='Preben', nickname='Prebba', 	 about_me='Jeg er OHG-kingen', 	button_color='blue', 	img_src='/static/images/preben.jpg')
 db.session.add(u)
 db.session.commit()
 '''
