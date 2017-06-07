@@ -112,7 +112,7 @@ def update_web_page_with_sound(user_id):
     if len(beers) % 6 == 0:
         sound_number = '_drunk'
     else:
-        sound_number = randint(1, 14)  # Integer, endpoints included
+        sound_number = randint(1, 16)  # Integer, endpoints included
 
     socketio.emit('play sound socket', {'data': str(sound_number)}, namespace='/test')
     sleep(0.01)

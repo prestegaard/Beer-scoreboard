@@ -15,7 +15,19 @@ date_for_print      = ''
 
 
 def main():
+    beers = models.Beer.query.all()
+    users = models.User.query.all()
     print("#### DELETE FROM DATABASE ###" )
+    print ("############################")
+    print ("List of all beers after time of drink")
+    user_nickname = ''
+    for b in beers:
+        for u in users:
+            if u.id == b.user_id:
+                user_nickname = u.nickname
+        print("Beer count  : {}\t Drinker: {}\t Timestamp: {}\t".format(b.id, user_nickname, b.timestamp).expandtabs(19))
+
+    print ("############################")
 
     print("Delete how many days ago? [0 - 7]")
     days_ago = input()
@@ -66,7 +78,15 @@ def main():
     end_time = dummy.replace(hour=int(delete_hour_end), minute=int(delete_minute_end), second=0, microsecond=0)
 
     print("Selected time: [{} <-> {}], date: ".format(start_time.time(), end_time.time(), date.date()))
-
+    print ("############################")
+    print ("Status overview of all users")
+    for u in users:
+        number_of_beers = 0
+        for b in beers:
+            if b.user_id == u.id:
+                number_of_beers += 1
+        print("ID: {}\t {}\t {}\t Beers: {}\t {}\t".format(u.id, u.name, u.nickname, number_of_beers, u.button_color).expandtabs(13) + "{}\t {}\t".format(u.about_me, u.location).expandtabs(30))
+    print ("############################")
     print("Choose specific user, or all users: [all] or [1-6]")
     user_input = input()
 

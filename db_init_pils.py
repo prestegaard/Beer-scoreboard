@@ -5,16 +5,6 @@ users = models.User.query.all()
 beers = models.Beer.query.all()
 number_of_beers = 0
 
-# Add location on user
-for u in users:
-    if u.id <= 7:
-        u.location = 'Criben'
-    if u.id == 6:
-        u.location = 'VIPs'
-    if u.id > 7:
-        u.location = 'Guests'
-    db.session.add(u)
-db.session.commit()
 
 
 
@@ -54,14 +44,12 @@ for u in users:
     if u.name == 'Rune':
         db.session.delete(u)
 '''
-
-# Add specific user
 '''
+# Add specific user
 u = models.User(name='Rune', nickname='Bassen', 	 about_me='Jeg er smøregutt!', 	button_color='yellow', 	img_src='/static/images/rune.jpg')
 db.session.add(u)
 db.session.commit()
 '''
-
 # Change info on specific user
 '''
 karlstad = models.User.query.get(2)
@@ -72,4 +60,16 @@ karlstad.button_color= 'green'
 db.session.add(karlstad)
 db.session.commit()
 '''
+
+# Add location on user
+for u in users:
+    if u.id <= 5 or u.id == 7:
+        u.location = 'Criben'
+    if u.id == 6 or u.id == 9:
+        u.location = 'VIPs'
+    else:
+        u.location = 'Guests'
+    db.session.add(u)
+db.session.commit()
+
 
