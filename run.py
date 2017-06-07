@@ -1,4 +1,5 @@
 #!flask/bin/python
+import os
 from app import app, socketio
 
 if __name__ == '__main__':
