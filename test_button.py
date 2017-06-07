@@ -1,8 +1,12 @@
-import time
+from time import sleep
 from RPi import GPIO
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin, GPIO.IN)
+GPIO.setup(25, GPIO.IN)
+GPIO.setup(24, GPIO.IN)
+GPIO.setup(23, GPIO.IN)
+GPIO.setup(18, GPIO.IN)
+GPIO.setup(15, GPIO.IN)
+GPIO.setup(14, GPIO.IN)
 while True:
-    	inputval = GPIO.input(pin)
-    	print ("STATUS: 25: {} 24: {} 23: {} 18: {} 15: {} 14: {}".format(GPIO.input(25), GPIO.input(24), GPIO.input(23), GPIO.input(18), GPIO.input(15), GPIO.input(14))
-    	time.sleep(0.05)
+	print ("STATUS: 25: {} 24: {} 23: {} 18: {} 15: {} 14: {}".format(str(GPIO.input(25)), str(GPIO.input(24)), str(GPIO.input(23)), str(GPIO.input(18)), str(GPIO.input(15)), str(GPIO.input(14))))
+	sleep(0.05)
